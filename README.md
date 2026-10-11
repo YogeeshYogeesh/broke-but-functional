@@ -1,82 +1,77 @@
-# Broke But Functional - Survive the Month
+# Broke But Functional: Survive the Month
 
-A personal finance app for Gen Z. You get Rs 10,000 for 30 days. Every decision you make changes your balance, daily allowance, savings goals, month forecast, risk level and health score.
+A responsive, browser-based personal-finance challenge. Start with ₹10,000 for 30 days and see how each decision affects your available balance, safe daily spending, bills, savings goals, risk level, financial-health score, and end-of-month forecast.
 
-Built with **React 18 + Vite**. Tests use **Vitest + React Testing Library**. No backend: data is saved in the browser and validated every time it is loaded.
+## Run locally
 
-## Run it
+Requirements: Node.js 18 or newer.
 
-```
+```bash
 npm install
 npm run dev
 ```
 
-## Run the tests
+Open the local URL printed by Vite.
 
-```
+## Test and production build
+
+```bash
 npm test
+npm run build
+npm run preview
 ```
 
-## What the app does
+The project uses React 18, Vite, Vitest, and React Testing Library. The simulator is lazy-loaded to keep the initial application bundle lean.
 
-| Requirement | Where it lives |
-| --- | --- |
-| Rs 10,000 budget over 30 days | `src/constants.js`, header day tracker |
-| Income and balance | Add a transaction panel, "Money left" card |
-| Spending tracking | Transactions list, "Where your money goes" |
-| Daily allowance | "Safe to spend per day" card (already removes upcoming bills) |
-| Commitments and subscriptions | Subscriptions & commitments panel |
-| Savings goals | Savings goals panel (money moved into goals leaves your spendable balance) |
-| Unexpected expenses | "Life happens" quick buttons |
-| Monthly forecast | Forecast chart and "Forecast for day 30" card |
-| Financial risk | Risk badge (Low, Medium, High, Critical) |
-| Financial health | Health score out of 100 |
-| Simulate before deciding | "What if?" simulator with before/after comparison |
+## Features
+
+- A 30-day challenge with a ₹10,000 starting balance and a day-progress indicator.
+- Income and expense transactions, category breakdown, and transaction removal.
+- Upcoming subscriptions and commitments that inform the safe-to-spend calculation.
+- Savings goals with guarded contributions and progress indicators.
+- Quick unexpected-expense actions.
+- A month-end balance forecast and contextual financial tips.
+- A what-if simulator to preview the effect of a purchase or decision before applying it.
+- Risk level and a financial-health score.
+- Browser-local persistence, with stored data validated when it is loaded.
 
 ## Project structure
 
-```
+```text
 src/
-  constants.js        fixed values (budget, days, limits, categories)
-  logic/              pure calculations, no React (finance, simulator, insights)
-  state/              reducer, saved-data validation, starting state
-  utils/              formatting, text and number cleaning
-  hooks/              useFinance: connects state to the screens
-  components/         one file per part of the screen
-  test/               test setup
+  components/   Small, focused interface components
+  hooks/        React hook that connects application state to the UI
+  logic/        Pure financial calculations, insights, and simulation logic
+  state/        Initial state, reducer, validation, and browser storage
+  utils/        Amount/text sanitization, IDs, and formatting
+  test/         Shared test setup
 ```
 
-## Security and data safety
-- All user text and numbers are cleaned by `utils/sanitize.js` before being stored.
-- Data loaded from the browser is validated item by item (`state/validate.js`). Broken or tampered data is dropped.
-- The app never uses `dangerouslySetInnerHTML`. React escapes all displayed text.
-- Amounts, names, notes and list sizes have strict limits.
+The reducer is the single state-update path. Incoming transactions, obligations, goals, and savings contributions are checked before they can change state. Financial calculations are kept outside presentation components so they can be tested independently.
 
-## Accessibility
-- Skip link, landmarks, and a proper heading order
-- Every input has a label; errors are announced with `role="alert"`
-- Full keyboard use, visible focus outlines, large click targets
-- Progress bars and the chart have text descriptions
-- Money changes are announced to screen readers
-- Respects "reduce motion" settings
+## Responsive design and accessibility
 
-## Performance
-- Calculations run once per change (`useMemo`) and components skip needless re-renders (`React.memo`)
-- The simulator is loaded only when needed (code splitting)
-- No images, no external fonts, no extra libraries
+- Fluid container widths and responsive grid breakpoints for desktop, tablet, mobile, and narrow phones.
+- Form rows, summary cards, transaction rows, and comparison tables adapt to small screens.
+- Semantic landmarks and labelled regions, a keyboard skip link, visible focus indicators, and labelled form controls.
+- Accessible progress-bar values and descriptive text for the forecast chart.
+- Status/error announcements where appropriate and reduced-motion support.
+- Touch-friendly control sizes and clear focus/hover states.
 
+## Data and privacy
 
-## Pre-submission verification
+This is a frontend-only project. User data is stored in the current browser and is not synchronized across devices or accounts. User-provided text and numeric values are sanitized, and persisted data is validated before it is used. React renders user text normally; the app does not use `dangerouslySetInnerHTML`.
 
-Before deploying a new version, run:
+## Pre-deployment checklist
 
-```
-npm install
-npm test
-npm run build
-npm run dev
-```
+1. Run `npm test` and `npm run build`.
+2. Test adding/deleting income and expenses.
+3. Advance and reset the challenge day.
+4. Add/delete bills and verify the safe daily allowance.
+5. Create, contribute to, and delete savings goals.
+6. Preview simulator decisions and verify that applying a decision updates the figures.
+7. Refresh the page and verify local persistence.
+8. Use the app with keyboard navigation and inspect at narrow mobile widths.
+9. Verify the deployed URL after deployment.
 
-Then check the production build in a browser and manually verify: adding/deleting income and expenses, advancing/resetting the day, adding/deleting bills, creating/contributing to/deleting goals, simulator previews, refresh persistence, keyboard-only navigation, and a narrow mobile viewport. Use a fresh browser profile or clear this app's local storage to verify the initial state.
-
-The app stores data locally in the current browser. It does not provide accounts or synchronize transactions between devices.
+The application is a budgeting exercise and educational tool, not professional financial advice.

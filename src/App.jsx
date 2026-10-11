@@ -24,6 +24,14 @@ export default function App() {
       </a>
       <Header currentDay={state.currentDay} dispatch={dispatch} />
       <main id="main" className="container" tabIndex={-1}>
+        <section className="dashboard-intro" aria-labelledby="dashboard-heading">
+          <div>
+            <p className="eyebrow">Your monthly money dashboard</p>
+            <h2 id="dashboard-heading">Make every rupee count.</h2>
+            <p>Track the little choices today, so the end of the month feels less uncertain.</p>
+          </div>
+          <span className="intro-pill">✦ 30-day survival challenge</span>
+        </section>
         <Summary m={m} />
 
         <div className="grid-2">
